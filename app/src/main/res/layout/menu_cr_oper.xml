@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/crOperName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:gravity="center_horizontal"
+        android:hint="Enter Var Name"
+        android:inputType="text"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <EditText
+        android:id="@+id/crOperOper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:hint="Enter Operation"
+        android:inputType="text"
+        app:layout_constraintStart_toEndOf="@+id/crOperName"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <Button
+        android:id="@+id/dialogCreateButton"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="@+id/crOperOper"
+        app:layout_constraintStart_toStartOf="@+id/crOperName"
+        app:layout_constraintTop_toBottomOf="@+id/crOperOper" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

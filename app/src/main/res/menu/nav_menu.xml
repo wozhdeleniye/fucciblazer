@@ -3,25 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn = "navigation_view">
 
-    <item android:title="Category 1">
+    <item android:title="Var">
         <menu>
-            <item android:title="crVar" android:id="@+id/crVar"/>
+
+            <item
+                android:title="Create variable"
+                android:id="@+id/crVar"/>
+
         </menu>
     </item>
-    <item android:title="Category 2">
+
+    <item android:title="Operations">
         <menu>
+
             <item
-                android:id="@+id/crSum"
-                android:title="crSum" />
+                android:id="@+id/crOper"
+                android:title="Create operations" />
+
+        </menu>
+    </item>
+
+    <item android:title="Logic">
+        <menu>
+
             <item
-                android:id="@+id/crSub"
-                android:title="crSub" />
+                android:id="@+id/crIf"
+                android:title="Create if" />
+
+        </menu>
+    </item>
+
+    <item android:title="Output">
+        <menu>
+
             <item
-                android:id="@+id/crMul"
-                android:title="crMul" />
-            <item
-                android:id="@+id/crDiv"
-                android:title="crDiv" />
+                android:id="@+id/crOut"
+                android:title="Create output" />
+
         </menu>
     </item>
 

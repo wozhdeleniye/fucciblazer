@@ -68,9 +68,17 @@ class MainActivity : AppCompatActivity() {
             open.setOnClickListener{
                 drawer.openDrawer(GravityCompat.END)
             }
+            start.setOnClickListener{
+                startInterpreter()
+            }
         }
         blocksService.addListener(blocksListener)
     }
+
+    fun startInterpreter(){
+
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

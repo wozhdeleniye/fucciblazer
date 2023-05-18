@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#F63E62">
+    android:background="@color/varColor">
 
 
     <TextView
         android:id="@+id/cardNameVarTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="10dp"
         android:lines="1"
-        android:text="VAR"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:text="@string/var"
+        android:textColor="@color/varTextColor"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:lines="1"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textColor="@color/varTextColor"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/cardNameVarTextView"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,11 +35,10 @@
 
     <ImageView
         android:id="@+id/equalityVarImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:src="@drawable/equality_card_view"
+        android:src="@drawable/equality_card_view_var"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/varNameTextView"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,20 +48,21 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:lines="1"
-        android:text="/varName/"
-        android:textColor="@color/black"
-        android:textSize="16sp"
+        android:text="@string/varName"
+        android:textColor="@color/varTextColor"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/equalityVarImageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/refactorMenuImageView"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/refactor_menu"
+        android:src="@drawable/refactor_menu_var"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/varValueTextView"
         app:layout_constraintTop_toTopOf="parent" />

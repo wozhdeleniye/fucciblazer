@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.root)
 
         adapter = BlocksAdapter(object : BlockActionListener{
@@ -68,17 +70,9 @@ class MainActivity : AppCompatActivity() {
             open.setOnClickListener{
                 drawer.openDrawer(GravityCompat.END)
             }
-            start.setOnClickListener{
-                startInterpreter()
-            }
         }
         blocksService.addListener(blocksListener)
     }
-
-    fun startInterpreter(){
-
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()

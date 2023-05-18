@@ -14,30 +14,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/linearLayoutColor"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginVertical="15dp"
                 android:layout_weight="1"
-                android:text="start" />
+                android:backgroundTint="@color/buttonColor"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/start"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:strokeColor="@color/buttonStrokeColor"
+                app:strokeWidth="2dp" />
 
             <Button
                 android:id="@+id/open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_weight="1"
-                android:text="open" />
-
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="15dp"
+                android:layout_weight="0"
+                android:backgroundTint="@color/buttonColor"
+                android:fontFamily="sans-serif-smallcaps"
+                android:text="@string/open"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:strokeColor="@color/buttonStrokeColor"
+                app:strokeWidth="2dp" />
 
 
         </LinearLayout>
@@ -46,7 +59,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"/>
+            android:background="@color/backgroundColor" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -54,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        android:background="#EDB9B2F3"
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/abril_fatface</item>
+        <item>@font/alatsi</item>
+        <item>@font/bebas_neue</item>
+        <item>@font/black_han_sans</item>
+        <item>@font/bree_serif</item>
+        <item>@font/coda</item>
+        <item>@font/goldman</item>
+        <item>@font/lilita_one</item>
+        <item>@font/nobile</item>
+        <item>@font/press_start_2p</item>
+        <item>@font/russo_one</item>
+    </array>
+</resources>

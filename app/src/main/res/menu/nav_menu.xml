@@ -5,10 +5,11 @@
 
     <item android:title="Var">
         <menu>
-
             <item
+                android:id="@+id/crVar"
                 android:title="Create variable"
-                android:id="@+id/crVar"/>
+                android:icon="@drawable/baseline_add_box_24"/>
+
 
         </menu>
     </item>
@@ -18,7 +19,9 @@
 
             <item
                 android:id="@+id/crOper"
-                android:title="Create operations" />
+                android:title="Create operations"
+                android:icon="@drawable/baseline_add_box_24"/>
+
 
         </menu>
     </item>
@@ -28,7 +31,8 @@
 
             <item
                 android:id="@+id/crIf"
-                android:title="Create if" />
+                android:title="Create if"
+                android:icon="@drawable/baseline_add_box_24"/>
 
         </menu>
     </item>
@@ -38,7 +42,8 @@
 
             <item
                 android:id="@+id/crOut"
-                android:title="Create output" />
+                android:title="Create output"
+                android:icon="@drawable/baseline_add_box_24"/>
 
         </menu>
     </item>

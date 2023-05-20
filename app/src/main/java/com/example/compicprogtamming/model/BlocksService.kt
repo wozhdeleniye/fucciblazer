@@ -18,27 +18,30 @@ class BlocksService {
         if (indexToDelete != -1){
             blocks = ArrayList(blocks)
             blocks.removeAt(indexToDelete)
+            notifyChanges()
         }
-        notifyChanges()
     }
 
     fun addBlock(block: Block){
         blocks.add(block)
-        notifyChanges()
-    }
-
-    fun editBlock(block: Block){
-        blocks[block.id] = block
-        notifyChanges()
-    }
-
-    fun moveBlock(block: Block, moveBy: Int) {
-        val oldIndex: Int = blocks.indexOfFirst { it.id == block.id }
-        if (oldIndex != -1) return
-        val newIndex: Int = oldIndex + moveBy
-        if (newIndex < 0 || newIndex >= blocks.size) return
         blocks = ArrayList(blocks)
-        Collections.swap(blocks, oldIndex, newIndex)
+        notifyChanges()
+    }
+
+    fun editBlock(block:Block){
+        blocks[block.id] = block
+        blocks = ArrayList(blocks)
+        notifyChanges()
+    }
+
+//    fun editBlock(block: Block){
+//        blocks[block.id] = block
+//        notifyChanges()
+//    }
+
+    fun swapBlock(oldInd: Int, newInd: Int) {
+        blocks = ArrayList(blocks)
+        Collections.swap(blocks, oldInd, newInd)
         notifyChanges()
     }
 

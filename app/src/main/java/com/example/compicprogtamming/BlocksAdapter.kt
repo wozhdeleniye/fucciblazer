@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicprogtamming.BlocksAdapter.Companion.ID_REMOVE
 import com.example.compicprogtamming.databinding.CardOperBinding
@@ -18,27 +19,31 @@ import com.example.compicprogtamming.model.VarBlock
 interface BlockActionListener {
     fun onBlockDelete(block:Block)
     fun onBlockEdit(block: Block)
+    fun onBlockSwap(oldInd: Int, newInd: Int)
+}
+
+class BlocksDiffCallback(
+    private val oldList: List<Block>,
+    private val newList: List<Block>
+) :DiffUtil.Callback(){
+    override fun getOldListSize(): Int = oldList.size
+    override fun getNewListSize(): Int = newList.size
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldBlock = oldList[oldItemPosition]
+        val newBlock = newList[newItemPosition]
+        return oldBlock.id == newBlock.id
+    }
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldBlock = oldList[oldItemPosition]
+        val newBlock = newList[newItemPosition]
+        return oldBlock.id == newBlock.id && oldBlock.type == newBlock.type
+    }
+
 }
 
 class BlocksAdapter(
-    private val actionListener: BlockActionListener
+    val actionListener: BlockActionListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(), View.OnClickListener {
-
-    var blocks: List<Block> = emptyList()
-        set(newValue){
-            field = newValue
-            notifyDataSetChanged()
-        }
-
-    override fun onClick(v: View) {
-        val block = v.tag as Block
-
-        when(v.id){
-            R.id.refactorMenuImageView ->{
-                showPopupMenu(v)
-            }
-        }
-    }
 
     class CardVarHolder(
         val binding: CardVarBinding
@@ -51,6 +56,24 @@ class BlocksAdapter(
     class CardOutHolder(
         val binding: CardOutBinding
     ) : RecyclerView.ViewHolder(binding.root)
+
+    var blocks: List<Block> = emptyList()
+        set(newValue){
+            val diffCallback = BlocksDiffCallback(field, newValue)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            field = newValue
+            diffResult.dispatchUpdatesTo(this)
+        }
+
+    override fun onClick(v: View) {
+        val block = v.tag as Block
+
+        when(v.id){
+            R.id.refactorMenuImageView ->{
+                showPopupMenu(v)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

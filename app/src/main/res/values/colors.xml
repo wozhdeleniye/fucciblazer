@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="linearLayoutColor">#8079BF</color>
     <color name="backgroundColor">#A7A4D6</color>
+    <color name="backgroundMenuColor">#DBD9FF</color>
     <color name="buttonColor">#605DA1</color>
     <color name="varColor">#79BFA1</color>
     <color name="operColor">#C7A3CF</color>
@@ -11,5 +12,5 @@
     <color name="varTextColor">#276E56</color>
     <color name="operTextColor">#73587A</color>
     <color name="outTextColor">#386B7C</color>
-    <color name="buttonStrokeColor">#55538E</color>
+    <color name="buttonStrokeColor">#B5B3FF</color>
 </resources>

@@ -19,6 +19,7 @@ import com.example.compicprogtamming.model.BlocksListener
 import com.example.compicprogtamming.model.BlocksService
 import com.example.compicprogtamming.model.*
 import org.apache.commons.lang3.ObjectUtils.Null
+import java.util.Collections
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -35,10 +36,13 @@ class MainActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.root)
 
-        adapter = BlocksAdapter(object : BlockActionListener{
 
+        adapter = BlocksAdapter(object : BlockActionListener{
             override fun onBlockDelete(block: Block) {
                 blocksService.deleteBlock(block)
+            }
+            override fun onBlockSwap(oldInd: Int, newInd: Int){
+                blocksService.swapBlock(oldInd, newInd)
             }
 
             override fun onBlockEdit(block: Block) {
@@ -59,9 +63,14 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+
+
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+
+        val itemTouchSwipes = ItemTouchHelper(SwapSwipe(adapter))
+        itemTouchSwipes.attachToRecyclerView(binding.recyclerView)
 
         binding.apply {
             naviView.setNavigationItemSelectedListener {
@@ -70,9 +79,19 @@ class MainActivity : AppCompatActivity() {
             open.setOnClickListener{
                 drawer.openDrawer(GravityCompat.END)
             }
+            start.setOnClickListener{
+
+            }
         }
         blocksService.addListener(blocksListener)
     }
+
+    fun startInterpreter(){
+//        adapter.notifyDataSetChanged()
+//        Interpreter.blockList = blocksService.getBlocks()
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -200,7 +219,7 @@ class MainActivity : AppCompatActivity() {
             val varName = mAlertDialogEditTextName.text.toString()
             val varValue = mAlertDialogEditTextValue.text.toString()
             val newBlock = VarBlock(position, type)
-            if((varName != "") and (varValue != "")){
+            if((varName != "") and (mAlertDialogEditTextValue.text.toString() != "")){
                 newBlock.varName = varName
                 newBlock.varValue = varValue
                 adapter.notifyDataSetChanged()

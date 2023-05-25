@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicprogtamming.databinding.ActivityMainBinding
+import com.example.compicprogtamming.interpreterlogic.Interpreter
 import com.example.compicprogtamming.model.Block
 import com.example.compicprogtamming.model.BlocksListener
 import com.example.compicprogtamming.model.BlocksService
@@ -84,11 +85,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
         blocksService.addListener(blocksListener)
+
+        binding.start.setOnClickListener(){
+            startInterpreter()
+        }
     }
 
     fun startInterpreter(){
-//        adapter.notifyDataSetChanged()
-//        Interpreter.blockList = blocksService.getBlocks()
+        adapter.notifyDataSetChanged()
+        Interpreter.blockList = blocksService.getBlocks()
+        var output = ""
+        for(str in Interpreter.outBlocks()) output += str + "\n"
+        binding.outBlock.text = output
     }
 
 
@@ -252,6 +260,7 @@ class MainActivity : AppCompatActivity() {
             if((varName != "") and (varOperation != "")) {
                 newBlock.varName = varName
                 newBlock.varOper = varOperation
+                adapter.notifyDataSetChanged()
                 blocksService.editBlock(newBlock)
                 Toast.makeText(
                     this@MainActivity,
@@ -280,8 +289,13 @@ class MainActivity : AppCompatActivity() {
             val newBlock = OutBlock(position, type)
             if(varName != ""){
                 newBlock.varName = varName
+                adapter.notifyDataSetChanged()
                 blocksService.editBlock(newBlock)
-                Toast.makeText(this@MainActivity,"Output: " + varName, Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Output: " + varName,
+                    Toast.LENGTH_LONG
+                ).show()
             }
             else Toast.makeText(this@MainActivity,
                 "Data wasn't changed",

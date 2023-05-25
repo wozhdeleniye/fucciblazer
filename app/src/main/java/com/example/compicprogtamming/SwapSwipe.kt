@@ -29,6 +29,19 @@ class SwapSwipe(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
+        val ind = viewHolder.absoluteAdapterPosition
+        val block = adapter.blocks[ind]
+
+        when (direction) {
+            ItemTouchHelper.LEFT -> {
+                adapter.actionListener.onBlockLeft(block)
+                adapter.notifyItemChanged(ind)
+            }
+
+            ItemTouchHelper.RIGHT -> {
+                adapter.actionListener.onBlockRight(block)
+                adapter.notifyItemChanged(ind)
+            }
+        }
     }
 }

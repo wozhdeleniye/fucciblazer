@@ -28,8 +28,23 @@ class BlocksService {
         notifyChanges()
     }
 
+    fun deTabBLock(block: Block){
+        var id = blocks.indexOfFirst {it.id == block.id}
+        if(id != -1)
+            if (blocks[id].tab > 0)
+                blocks[id].tab--
+    }
+
+    fun tabBLock(block: Block){
+        var id = blocks.indexOfFirst {it.id == block.id}
+        if(id != -1)
+            blocks[id].tab++
+    }
+
+
     fun editBlock(block:Block){
-        blocks[block.id] = block
+        var id = blocks.indexOfFirst {it.id == block.id}
+        blocks[id] = block
         blocks = ArrayList(blocks)
         notifyChanges()
     }

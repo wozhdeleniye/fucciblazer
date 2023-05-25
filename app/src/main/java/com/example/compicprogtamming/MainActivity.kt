@@ -46,18 +46,27 @@ class MainActivity : AppCompatActivity() {
                 blocksService.swapBlock(oldInd, newInd)
             }
 
+            override fun onBlockLeft(block: Block) {
+                blocksService.deTabBLock(block)
+            }
+
+            override fun onBlockRight(block: Block) {
+                blocksService.tabBLock(block)
+            }
+
             override fun onBlockEdit(block: Block) {
                 val position = block.id
                 val type = block.type
+                val tabs = block.tab
                 when(block.type){
                     0 ->{
-                        callVarBlockEdit(position, type)
+                        callVarBlockEdit(position, type, tabs)
                     }
                     1 -> {
-                        callOperBlockEdit(position, type)
+                        callOperBlockEdit(position, type, tabs)
                     }
                     2 -> {
-                        callOutBlockEdit(position, type)
+                        callOutBlockEdit(position, type, tabs)
                     }
                 }
             }
@@ -132,23 +141,32 @@ class MainActivity : AppCompatActivity() {
 
     fun addBlock(varName: String, varValue: String, type: Int){
 
+        var tabs = 0
+        var size = blocksService.getBlocks().size
+
+        if(size != 0){
+            tabs = blocksService.getBlocks()[size - 1].tab
+            if(blocksService.getBlocks()[size - 1].type == 3)
+                tabs += 1
+        }
+
         when(type){
             0 -> {
-                val newBlock = VarBlock(newBlockIndex, type)
+                val newBlock = VarBlock(newBlockIndex, type, tabs)
                 newBlock.varName = varName
                 newBlock.varValue = varValue
                 adapter.notifyDataSetChanged()
                 blocksService.addBlock(newBlock)
             }
             1 -> {
-                val newBlock = OperBlock(newBlockIndex, type)
+                val newBlock = OperBlock(newBlockIndex, type, tabs)
                 newBlock.varName = varName
                 newBlock.varOper = varValue
                 adapter.notifyDataSetChanged()
                 blocksService.addBlock(newBlock)
             }
             2 -> {
-                val newBlock = OutBlock(newBlockIndex, type)
+                val newBlock = OutBlock(newBlockIndex, type, tabs)
                 newBlock.varName = varName
                 adapter.notifyDataSetChanged()
                 blocksService.addBlock(newBlock)
@@ -213,7 +231,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Output: " + varName, Toast.LENGTH_LONG).show()
         }
     }
-    fun callVarBlockEdit(position: Int, type: Int){
+    fun callVarBlockEdit(position: Int, type: Int, tabs: Int){
         val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_var, null);
         val mBuilder = AlertDialog.Builder(this@MainActivity)
             .setView(mDialogView)
@@ -226,7 +244,7 @@ class MainActivity : AppCompatActivity() {
             mAlertDialog.dismiss()
             val varName = mAlertDialogEditTextName.text.toString()
             val varValue = mAlertDialogEditTextValue.text.toString()
-            val newBlock = VarBlock(position, type)
+            val newBlock = VarBlock(position, type, tabs)
             if((varName != "") and (mAlertDialogEditTextValue.text.toString() != "")){
                 newBlock.varName = varName
                 newBlock.varValue = varValue
@@ -243,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun callOperBlockEdit(position: Int, type: Int){
+    fun callOperBlockEdit(position: Int, type: Int, tabs: Int){
         val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_oper, null);
         val mBuilder = AlertDialog.Builder(this@MainActivity)
             .setView(mDialogView)
@@ -256,7 +274,7 @@ class MainActivity : AppCompatActivity() {
             mAlertDialog.dismiss()
             val varName = mAlertDialogEditTextName.text.toString()
             val varOperation = mAlertDialogEditTextValue.text.toString()
-            val newBlock = OperBlock(position, type)
+            val newBlock = OperBlock(position, type, tabs)
             if((varName != "") and (varOperation != "")) {
                 newBlock.varName = varName
                 newBlock.varOper = varOperation
@@ -273,7 +291,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG).show()
         }
     }
-    fun callOutBlockEdit(position: Int, type: Int){
+    fun callOutBlockEdit(position: Int, type: Int, tabs: Int){
         binding.drawer.closeDrawer(GravityCompat.END)
 
         val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_out, null);
@@ -286,7 +304,7 @@ class MainActivity : AppCompatActivity() {
         mAlertDialogButton.setOnClickListener(){
             mAlertDialog.dismiss()
             val varName = mAlertDialogEditTextName.text.toString()
-            val newBlock = OutBlock(position, type)
+            val newBlock = OutBlock(position, type, tabs)
             if(varName != ""){
                 newBlock.varName = varName
                 adapter.notifyDataSetChanged()

@@ -20,6 +20,8 @@ interface BlockActionListener {
     fun onBlockDelete(block:Block)
     fun onBlockEdit(block: Block)
     fun onBlockSwap(oldInd: Int, newInd: Int)
+    fun onBlockLeft(block: Block)
+    fun onBlockRight(block:Block)
 }
 
 class BlocksDiffCallback(
@@ -36,7 +38,7 @@ class BlocksDiffCallback(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldBlock = oldList[oldItemPosition]
         val newBlock = newList[newItemPosition]
-        return oldBlock.id == newBlock.id && oldBlock.type == newBlock.type
+        return oldBlock.id == newBlock.id && oldBlock.type == newBlock.type && oldBlock.tab == newBlock.tab
     }
 
 }

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:background="@color/operColor">
 
-
     <TextView
         android:id="@+id/tabsTextView"
         android:layout_width="wrap_content"
@@ -28,12 +27,13 @@
         app:layout_constraintStart_toEndOf="@id/tabsTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
-        android:id="@+id/cardNameVarTextView"
+        android:id="@+id/cardNameOutTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:lines="1"
-        android:text="@string/oper"
+        android:text="if:"
         android:textColor="@color/operTextColor"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/operNameTextView"
+        android:id="@+id/ifConditionTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -49,31 +49,9 @@
         android:textColor="@color/operTextColor"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cardNameVarTextView"
+        app:layout_constraintStart_toEndOf="@id/cardNameOutTextView"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="/varName/" />
-
-    <ImageView
-        android:id="@+id/equalityVarImageView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/equality_card_view_oper"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/operNameTextView"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/operValueTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:lines="1"
-        android:text="@string/varName"
-        android:textColor="@color/operTextColor"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/equalityVarImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:text="/ifCondition/" />
 
     <ImageView
         android:id="@+id/refactorMenuImageView"
@@ -84,7 +62,7 @@
         android:src="@drawable/refactor_menu_oper"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/operValueTextView"
+        app:layout_constraintStart_toEndOf="@+id/ifConditionTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
 

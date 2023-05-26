@@ -21,6 +21,11 @@ class BlocksService {
             notifyChanges()
         }
     }
+    fun clearBlockList(){
+        blocks = ArrayList(blocks)
+        blocks.clear()
+        notifyChanges()
+    }
 
     fun addBlock(block: Block){
         blocks.add(block)
@@ -33,6 +38,9 @@ class BlocksService {
         if(id != -1)
             if (blocks[id].tab > 0)
                 blocks[id].tab--
+        if((id == 0) && (block.tab == 0)){
+            clearBlockList()
+        }
     }
 
     fun tabBLock(block: Block){
@@ -40,7 +48,6 @@ class BlocksService {
         if(id != -1)
             blocks[id].tab++
     }
-
 
     fun editBlock(block:Block){
         var id = blocks.indexOfFirst {it.id == block.id}

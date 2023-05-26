@@ -28,3 +28,10 @@ class OutBlock(
     tab: Int,
     var varName: String? = null
 ) : Block(id, type = 2, tab) {}
+
+class IfBlock(
+    id: Int,
+    type: Int = 3,
+    tab: Int,
+    var ifCondition: String? = null
+) : Block(id, type = 3, tab) {}

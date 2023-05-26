@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.root)
 
-
         adapter = BlocksAdapter(object : BlockActionListener{
             override fun onBlockDelete(block: Block) {
                 blocksService.deleteBlock(block)
@@ -62,11 +61,11 @@ class MainActivity : AppCompatActivity() {
                     0 ->{
                         callVarBlockEdit(position, type, tabs)
                     }
-                    1 -> {
-                        callOperBlockEdit(position, type, tabs)
-                    }
                     2 -> {
                         callOutBlockEdit(position, type, tabs)
+                    }
+                    3 -> {
+                        callIfBlockEdit(position, type, tabs)
                     }
                 }
             }
@@ -90,14 +89,11 @@ class MainActivity : AppCompatActivity() {
                 drawer.openDrawer(GravityCompat.END)
             }
             start.setOnClickListener{
-
+                startInterpreter()
             }
         }
         blocksService.addListener(blocksListener)
 
-        binding.start.setOnClickListener(){
-            startInterpreter()
-        }
     }
 
     fun startInterpreter(){
@@ -105,8 +101,16 @@ class MainActivity : AppCompatActivity() {
         Interpreter.blockList = blocksService.getBlocks()
         var output = ""
         for(str in Interpreter.outBlocks()) output += str + "\n"
-        binding.outBlock.text = output
+       // binding.outBlock.text = output
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.output_alert, null);
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("Output")
+            .setMessage(output)
+        val mAlertDialog = mBuilder.show()
     }
+
 
 
 
@@ -124,11 +128,11 @@ class MainActivity : AppCompatActivity() {
             R.id.crVar ->{
                 callVarBlockMenu()
             }
-            R.id.crOper ->{
-                callOperBlockMenu()
-            }
             R.id.crOut ->{
                 callOutBlockMenu()
+            }
+            R.id.crIf ->{
+                callIfBlockMenu()
             }
             //создание других блоков.... потом
         }
@@ -171,6 +175,12 @@ class MainActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
                 blocksService.addBlock(newBlock)
             }
+            3 -> {
+                val newBlock = IfBlock(newBlockIndex, 3, tabs)
+                newBlock.ifCondition = varName
+                adapter.notifyDataSetChanged()
+                blocksService.addBlock(newBlock)
+            }
         }
 
         newBlockIndex += 1
@@ -195,25 +205,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Variable: " + varName + " = " + varValue, Toast.LENGTH_LONG).show()
         }
     }
-    fun callOperBlockMenu(){
-        binding.drawer.closeDrawer(GravityCompat.END)
-
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.menu_cr_oper, null);
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("Operation")
-        val mAlertDialog = mBuilder.show()
-        val mAlertDialogButton = mDialogView.findViewById<Button>(R.id.dialogCreateButton)
-        val mAlertDialogEditTextName = mDialogView.findViewById<EditText>(R.id.crOperName)
-        val mAlertDialogEditTextValue = mDialogView.findViewById<EditText>(R.id.crOperOper)
-        mAlertDialogButton.setOnClickListener(){
-            mAlertDialog.dismiss()
-            val varName = mAlertDialogEditTextName.text.toString()
-            val varOperation = mAlertDialogEditTextValue.text.toString()
-            addBlock(varName, varOperation, 1)
-            Toast.makeText(this,"Operation: " + varName + " = " + varOperation, Toast.LENGTH_LONG).show()
-        }
-    }
     fun callOutBlockMenu(){
         binding.drawer.closeDrawer(GravityCompat.END)
 
@@ -231,6 +222,25 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Output: " + varName, Toast.LENGTH_LONG).show()
         }
     }
+
+    fun callIfBlockMenu(){
+        binding.drawer.closeDrawer(GravityCompat.END)
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.menu_cr_if, null);
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("If")
+        val mAlertDialog = mBuilder.show()
+        val mAlertDialogButton = mDialogView.findViewById<Button>(R.id.dialogCreateButton)
+        val mAlertDialogEditIfCondition = mDialogView.findViewById<EditText>(R.id.crIfCondition)
+        mAlertDialogButton.setOnClickListener(){
+            mAlertDialog.dismiss()
+            val ifCondition = mAlertDialogEditIfCondition.text.toString()
+            addBlock(ifCondition, "1", 3)
+            Toast.makeText(this,"If: " + ifCondition, Toast.LENGTH_LONG).show()
+        }
+    }
+
     fun callVarBlockEdit(position: Int, type: Int, tabs: Int){
         val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_var, null);
         val mBuilder = AlertDialog.Builder(this@MainActivity)
@@ -260,37 +270,6 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
-
-    fun callOperBlockEdit(position: Int, type: Int, tabs: Int){
-        val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_oper, null);
-        val mBuilder = AlertDialog.Builder(this@MainActivity)
-            .setView(mDialogView)
-            .setTitle("Operation")
-        val mAlertDialog = mBuilder.show()
-        val mAlertDialogButton = mDialogView.findViewById<Button>(R.id.dialogCreateButton)
-        val mAlertDialogEditTextName = mDialogView.findViewById<EditText>(R.id.crOperName)
-        val mAlertDialogEditTextValue = mDialogView.findViewById<EditText>(R.id.crOperOper)
-        mAlertDialogButton.setOnClickListener(){
-            mAlertDialog.dismiss()
-            val varName = mAlertDialogEditTextName.text.toString()
-            val varOperation = mAlertDialogEditTextValue.text.toString()
-            val newBlock = OperBlock(position, type, tabs)
-            if((varName != "") and (varOperation != "")) {
-                newBlock.varName = varName
-                newBlock.varOper = varOperation
-                adapter.notifyDataSetChanged()
-                blocksService.editBlock(newBlock)
-                Toast.makeText(
-                    this@MainActivity,
-                    "Operation: " + varName + " = " + varOperation,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            else Toast.makeText(this@MainActivity,
-                "Data wasn't changed",
-                Toast.LENGTH_LONG).show()
-        }
-    }
     fun callOutBlockEdit(position: Int, type: Int, tabs: Int){
         binding.drawer.closeDrawer(GravityCompat.END)
 
@@ -317,6 +296,37 @@ class MainActivity : AppCompatActivity() {
             }
             else Toast.makeText(this@MainActivity,
                 "Data wasn't changed",
+                Toast.LENGTH_LONG).show()
+        }
+    }
+    fun callIfBlockEdit(position: Int, type: Int, tabs: Int){
+        binding.drawer.closeDrawer(GravityCompat.END)
+
+        val mDialogView = LayoutInflater.from(this@MainActivity).inflate(R.layout.menu_cr_if, null);
+        val mBuilder = AlertDialog.Builder(this@MainActivity)
+            .setView(mDialogView)
+            .setTitle("If")
+        val mAlertDialog = mBuilder.show()
+
+        val mAlertDialogButton = mDialogView.findViewById<Button>(R.id.dialogCreateButton)
+        val mAlertDialogIfCondition = mDialogView.findViewById<EditText>(R.id.crIfCondition)
+
+        mAlertDialogButton.setOnClickListener(){
+            mAlertDialog.dismiss()
+            val ifCondition = mAlertDialogIfCondition.text.toString()
+            val newBlock = IfBlock(position, type, tabs)
+            if(ifCondition != ""){
+                newBlock.ifCondition = ifCondition
+                adapter.notifyDataSetChanged()
+                blocksService.editBlock(newBlock)
+                Toast.makeText(
+                    this@MainActivity,
+                    "If: " + ifCondition,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            else Toast.makeText(this@MainActivity,
+                "Data isn't changed",
                 Toast.LENGTH_LONG).show()
         }
     }

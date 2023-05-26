@@ -11,10 +11,12 @@ import com.example.compicprogtamming.BlocksAdapter.Companion.ID_REMOVE
 import com.example.compicprogtamming.databinding.CardOperBinding
 import com.example.compicprogtamming.databinding.CardOutBinding
 import com.example.compicprogtamming.databinding.CardVarBinding
+import com.example.compicprogtamming.databinding.CardIfBinding
 import com.example.compicprogtamming.model.Block
 import com.example.compicprogtamming.model.OperBlock
 import com.example.compicprogtamming.model.OutBlock
 import com.example.compicprogtamming.model.VarBlock
+import com.example.compicprogtamming.model.IfBlock
 
 interface BlockActionListener {
     fun onBlockDelete(block:Block)
@@ -59,6 +61,10 @@ class BlocksAdapter(
         val binding: CardOutBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
+    class CardIfHolder(
+        val binding: CardIfBinding
+    ) : RecyclerView.ViewHolder(binding.root)
+
     var blocks: List<Block> = emptyList()
         set(newValue){
             val diffCallback = BlocksDiffCallback(field, newValue)
@@ -95,18 +101,26 @@ class BlocksAdapter(
 
                 return CardOperHolder(binding)
             }
-            else ->{
+            2 ->{
                 val binding = CardOutBinding.inflate(inflater, parent, false)
                 binding.root.setOnClickListener(this)
                 binding.refactorMenuImageView.setOnClickListener(this)
 
                 return CardOutHolder(binding)
             }
+            else ->{
+                val binding = CardIfBinding.inflate(inflater, parent, false)
+                binding.root.setOnClickListener(this)
+                binding.refactorMenuImageView.setOnClickListener(this)
+
+                return CardIfHolder(binding)
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val block = blocks[position]
+        val tabs = tabsString(position)
 
         when(block.type){
             0->{
@@ -117,6 +131,8 @@ class BlocksAdapter(
 
                     varNameTextView.text = block.varName
                     varValueTextView.text = block.varValue
+                    tabsTextView.text = tabs
+                    tabsAmountTextView.text = "(" + block.tab + ")"
                 }
             }
             1->{
@@ -127,6 +143,8 @@ class BlocksAdapter(
 
                     operNameTextView.text = block.varName
                     operValueTextView.text = block.varOper
+                    tabsTextView.text = tabs
+                    tabsAmountTextView.text = "(" + block.tab + ")"
                 }
             }
             2->{
@@ -136,6 +154,19 @@ class BlocksAdapter(
                     refactorMenuImageView.tag = block
 
                     outNameTextView.text = block.varName
+                    tabsTextView.text = tabs
+                    tabsAmountTextView.text = "(" + block.tab + ")"
+                }
+            }
+            3->{
+                val block = block as IfBlock
+                with((holder as CardIfHolder).binding){
+                    holder.itemView.tag = block
+                    refactorMenuImageView.tag = block
+
+                    ifConditionTextView.text = block.ifCondition
+                    tabsTextView.text = tabs
+                    tabsAmountTextView.text = "(" + block.tab + ")"
                 }
             }
         }
@@ -160,6 +191,14 @@ class BlocksAdapter(
             return@setOnMenuItemClickListener true
         }
         popupMenu.show()
+    }
+
+    private fun tabsString(index: Int) : String{
+        var string = ""
+        for(i in 0 until blocks[index].tab){
+            string += "  "
+        }
+        return string
     }
 
     override fun getItemViewType(position: Int): Int {

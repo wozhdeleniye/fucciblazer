@@ -14,18 +14,6 @@
         </menu>
     </item>
 
-    <item android:title="Operations">
-        <menu>
-
-            <item
-                android:id="@+id/crOper"
-                android:title="Create operations"
-                android:icon="@drawable/baseline_add_box_24"/>
-
-
-        </menu>
-    </item>
-
     <item android:title="Logic">
         <menu>
             <item
